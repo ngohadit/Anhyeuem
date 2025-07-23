@@ -1,41 +1,126 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VUONG PROFILE</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <title>VƯƠNG 79CLUB</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Anton', sans-serif;
+      background: url('https://i.ibb.co/Z6zhMzCS/gaming-background-abstract-wallpaper-cyberpunk-260nw-2233044639.jpg') no-repeat center center;
+      background-size: cover;
+      height: 100vh;
+    }
+
+    #rotate-warning {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      color: white;
+      font-size: 24px;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      padding: 30px;
+    }
+
+    @media screen and (orientation: portrait) {
+      body > *:not(#rotate-warning) {
+        display: none !important;
+      }
+      #rotate-warning {
+        display: flex;
+      }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+    }
+
+    .title {
+      font-size: 48px;
+      color: #FFD700;
+      background: rgba(0,0,0,0.5);
+      padding: 10px 30px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px gold;
+    }
+
+    .dice-container {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .dice {
+      width: 100px;
+      height: 100px;
+      animation: shake 1s infinite alternate;
+    }
+
+    @keyframes shake {
+      from { transform: rotate(-5deg); }
+      to { transform: rotate(5deg); }
+    }
+
+    .coins-left, .coins-right {
+      position: absolute;
+      bottom: 10px;
+      width: 130px;
+    }
+
+    .coins-left {
+      left: 10px;
+    }
+
+    .coins-right {
+      right: 10px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="fps">FPS: 99.9</div>
-    <h1 class="title-left">VUONG TRUM MAI DAM</h1>
 
-    <img src="https://cdn.discordapp.com/attachments/1266182121047986342/1397051452354199603/IMG_1749973203749_1749973241894.jpg" alt="Logo" class="logo-right" />
+<div id="rotate-warning">
+  👉 Vui lòng xoay ngang màn hình để chơi game!
+</div>
 
-    <div class="profile">
-      <button class="neon-btn">Dịch vụ</button>
-      <button class="neon-btn">CHAT SEX - CALL DAM</button>
-
-      <div class="links">
-        <button onclick="window.open('https://www.facebook.com/nguyen.hung.vuong.759003', '_blank')">FACEBOOK</button>
-        <button onclick="window.open('https://zalo.me/081603870', '_blank')">ZALO</button>
-        <button onclick="window.open('https://www.tiktok.com/@metagaya1?_t=ZS-8yEEZqJyhur&_r=1', '_blank')">TIKTOK</button>
-      </div>
-    </div>
+<div class="container">
+  <div class="title">VƯƠNG 79CLUB</div>
+  <div class="dice-container">
+    <img src="https://cdn-icons-png.flaticon.com/512/2829/2829782.png" alt="Dice 1" class="dice">
+    <img src="https://cdn-icons-png.flaticon.com/512/2829/2829754.png" alt="Dice 2" class="dice">
+    <img src="https://cdn-icons-png.flaticon.com/512/2829/2829736.png" alt="Dice 3" class="dice">
   </div>
+  <img src="https://png.pngtree.com/png-clipart/20231016/original/pngtree-gold-coins-pile-3d-illustration-on-transparent-background-png-image_13390478.png" class="coins-left">
+  <img src="https://png.pngtree.com/png-clipart/20231016/original/pngtree-gold-coins-pile-3d-illustration-on-transparent-background-png-image_13390478.png" class="coins-right">
+</div>
 
-  <div class="music-controls">
-    <button class="music-btn" onclick="toggleMusic()">Phát nhạc</button>
-    <button class="music-btn" onclick="nextTrack()">Next bài</button>
-    <div class="song-title" id="song-title">🎵 Đang phát: Bài 1 - Trú Mưa</div>
-  </div>
+<script>
+  // Gợi ý xoay ngang (chỉ hiệu quả trên app/webview hỗ trợ)
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock("landscape").catch(function () {
+      console.warn("Không thể ép xoay ngang, yêu cầu người dùng tự xoay.");
+    });
+  }
+</script>
 
-  <audio id="bg-music" preload="auto">
-    <source id="audio-source" src="https://media.vocaroo.com/mp3/16cxaqpVQIn3" type="audio/mp3">
-    Trình duyệt của bạn không hỗ trợ phát nhạc.
-  </audio>
-
-  <script src="script.js"></script>
 </body>
 </html>
