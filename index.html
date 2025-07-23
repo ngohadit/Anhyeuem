@@ -3,131 +3,187 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sảnh Game</title>
+  <title>Vương 79 Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
+      margin: 0;
       background: url('https://i.postimg.cc/zvYGwVbz/pngtree-full-casino-on-a-cruise-ship-picture-image-2478882.png') no-repeat center center fixed;
       background-size: cover;
-      font-family: 'Arial', sans-serif;
+      font-family: 'Orbitron', sans-serif;
       overflow: hidden;
-      height: 100vh;
     }
 
-    #miniGameBtn {
-      position: absolute;
-      top: 20%;
-      left: 20%;
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: radial-gradient(circle at center, #ff0000 40%, #990000 100%);
-      border: 5px solid gold;
-      box-shadow: 0 0 20px 5px gold, inset 0 0 10px #fff;
-      color: white;
-      font-size: 14px;
-      font-weight: bold;
+    .title {
+      font-size: 3em;
+      color: #FFD700;
+      text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500, 2px 2px 5px black;
       text-align: center;
-      line-height: 1.2;
-      padding-top: 25px;
-      cursor: grab;
-      user-select: none;
-      animation: spin 5s linear infinite;
-      z-index: 999;
+      margin-top: 20px;
     }
 
-    #miniGameBtn:active {
-      cursor: grabbing;
+    .subtitle {
+      text-align: center;
+      color: #FFD700;
+      font-size: 1.2em;
+      text-shadow: 0 0 5px #FFD700, 0 0 10px #FFA500, 1px 1px 3px black;
     }
 
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    /* Nền chữ nổi bật */
-    #miniGameBtn::before {
-      content: '';
-      position: absolute;
-      top: -8px;
-      left: -8px;
-      width: 116px;
-      height: 116px;
+    .minigame-button {
+      position: fixed;
+      bottom: 50px;
+      right: 50px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
-      background: rgba(255, 255, 0, 0.3);
-      box-shadow: 0 0 30px 5px yellow;
-      z-index: -1;
+      background: radial-gradient(circle, #FF3CAC, #784BA0);
+      color: white;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 1000;
+      user-select: none;
+      box-shadow: none;
     }
 
-    /* Hiệu ứng ánh sáng */
-    #miniGameBtn::after {
-      content: '';
-      position: absolute;
+    .minigame-button span {
+      display: block;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid gold;
+      padding: 20px;
+      color: #FFD700;
+      border-radius: 15px;
+      z-index: 1001;
+      text-align: center;
+    }
+
+    .popup h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.5em;
+    }
+
+    .popup button {
+      background: gold;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    #game-area {
+      display: none;
+      position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: repeating-conic-gradient(from 0deg, rgba(255,255,255,0.1) 0deg, transparent 30deg);
-      animation: light-spin 2s linear infinite;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1002;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
 
-    @keyframes light-spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    #game-area h1 {
+      color: gold;
     }
 
+    #back-button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background: crimson;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-  <div id="miniGameBtn">MINI<br>GAME</div>
+  <h1 class="title">Vương 79 Club</h1>
+  <p class="subtitle">Chào mừng đến với thế giới 79 Club</p>
+
+  <!-- Nút mini game -->
+  <div class="minigame-button" id="miniGameBtn" draggable="true">
+    MINI<br><span>GAME</span>
+  </div>
+
+  <!-- Popup chọn game -->
+  <div class="popup" id="popup">
+    <h2>Chọn Game</h2>
+    <button onclick="startGame()">🎲 Tài Xỉu</button>
+    <br>
+    <button onclick="closePopup()">❌ Đóng</button>
+  </div>
+
+  <!-- Khu vực chơi game -->
+  <div id="game-area">
+    <h1>Bạn đang chơi: Tài Xỉu</h1>
+    <!-- Có thể thay bằng game thật sau -->
+    <button id="back-button" onclick="exitGame()">🔙 Trở về sảnh</button>
+  </div>
 
   <script>
-    // Cho phép kéo nút mini game xung quanh màn hình
-    const miniBtn = document.getElementById('miniGameBtn');
-    let isDragging = false, offsetX, offsetY;
+    const miniBtn = document.getElementById("miniGameBtn");
+    const popup = document.getElementById("popup");
+    const gameArea = document.getElementById("game-area");
 
-    miniBtn.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      offsetX = e.clientX - miniBtn.offsetLeft;
-      offsetY = e.clientY - miniBtn.offsetTop;
+    // Mở popup
+    miniBtn.onclick = () => {
+      popup.style.display = "block";
+    };
+
+    function closePopup() {
+      popup.style.display = "none";
+    }
+
+    function startGame() {
+      popup.style.display = "none";
+      gameArea.style.display = "flex";
+    }
+
+    function exitGame() {
+      gameArea.style.display = "none";
+    }
+
+    // Kéo nút mini game
+    miniBtn.addEventListener("dragstart", e => {
+      const style = window.getComputedStyle(e.target, null);
+      e.dataTransfer.setData("text/plain",
+        (parseInt(style.getPropertyValue("left"), 10) - e.clientX) + ',' +
+        (parseInt(style.getPropertyValue("top"), 10) - e.clientY));
     });
 
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        miniBtn.style.left = `${e.clientX - offsetX}px`;
-        miniBtn.style.top = `${e.clientY - offsetY}px`;
-      }
+    document.body.addEventListener("dragover", function(e) {
+      e.preventDefault();
+      return false;
     });
 
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
-
-    // Cho điện thoại (touch)
-    miniBtn.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      const touch = e.touches[0];
-      offsetX = touch.clientX - miniBtn.offsetLeft;
-      offsetY = touch.clientY - miniBtn.offsetTop;
-    });
-
-    document.addEventListener('touchmove', (e) => {
-      if (isDragging) {
-        const touch = e.touches[0];
-        miniBtn.style.left = `${touch.clientX - offsetX}px`;
-        miniBtn.style.top = `${touch.clientY - offsetY}px`;
-      }
-    });
-
-    document.addEventListener('touchend', () => {
-      isDragging = false;
+    document.body.addEventListener("drop", function(e) {
+      const offset = e.dataTransfer.getData("text/plain").split(',');
+      const mini = document.getElementById("miniGameBtn");
+      mini.style.left = (e.clientX + parseInt(offset[0],10)) + 'px';
+      mini.style.top = (e.clientY + parseInt(offset[1],10)) + 'px';
+      return false;
     });
   </script>
 
