@@ -34,22 +34,34 @@
       position: fixed;
       bottom: 20px;
       left: 20px;
-      z-index: 9999;
       font-size: 28px;
-      background: rgba(0, 0, 0, 0.5);
-      border: 2px solid #fff;
+      cursor: pointer;
+      background: rgba(0,0,0,0.5);
       border-radius: 50%;
       width: 50px;
       height: 50px;
+      line-height: 50px;
       text-align: center;
-      line-height: 46px;
       color: #fff;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      box-shadow: 0 0 10px #000;
+      transition: 0.3s;
     }
 
-    audio {
-      display: none;
+    .music-toggle:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .money-box {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 20px;
+      color: #00FF66;
+      font-weight: bold;
+      box-shadow: 0 0 10px #000;
     }
   </style>
 </head>
@@ -57,34 +69,31 @@
   <h1>VUONG PROFILE</h1>
   <p>Chào mừng đến với sòng bạc Vương 🌟</p>
 
-  <!-- Nút bật/tắt nhạc -->
-  <div class="music-toggle" onclick="toggleMusic()" id="musicBtn">🎶</div>
+  <!-- Khung hiển thị tiền -->
+  <div class="money-box">0đ VND</div>
 
-  <!-- Trình phát nhạc mp3 -->
-  <audio id="bgMusic" autoplay loop>
+  <!-- Nút bật/tắt nhạc -->
+  <div class="music-toggle" id="musicToggle">🎵</div>
+
+  <!-- Nhạc nền -->
+  <audio id="bgMusic" loop>
     <source src="https://media.vocaroo.com/mp3/14Fx2ZuWfCB5" type="audio/mpeg" />
-    Trình duyệt của bạn không hỗ trợ nhạc mp3.
   </audio>
 
   <script>
-    const audio = document.getElementById("bgMusic");
-    const btn = document.getElementById("musicBtn");
+    const musicToggle = document.getElementById("musicToggle");
+    const bgMusic = document.getElementById("bgMusic");
+    let isPlaying = false;
 
-    function toggleMusic() {
-      if (audio.paused) {
-        audio.play();
-        btn.textContent = "🎶";
+    musicToggle.addEventListener("click", () => {
+      if (isPlaying) {
+        bgMusic.pause();
+        musicToggle.textContent = "🎵";
       } else {
-        audio.pause();
-        btn.textContent = "🎵";
+        bgMusic.play().catch(() => {});
+        musicToggle.textContent = "🎶";
       }
-    }
-
-    // Tự đổi nút nếu nhạc phát tự động được
-    window.addEventListener("DOMContentLoaded", () => {
-      if (!audio.paused) {
-        btn.textContent = "🎶";
-      }
+      isPlaying = !isPlaying;
     });
   </script>
 </body>
