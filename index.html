@@ -3,106 +3,133 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sảnh Game Mini</title>
+  <title>Sảnh Game</title>
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       background: url('https://i.postimg.cc/zvYGwVbz/pngtree-full-casino-on-a-cruise-ship-picture-image-2478882.png') no-repeat center center fixed;
       background-size: cover;
       font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      height: 100vh;
     }
 
-    /* Nút tròn chính */
-    .drag-button {
-      position: fixed;
-      bottom: 100px;
-      right: 30px;
-      width: 70px;
-      height: 70px;
-      background: red;
+    #miniGameBtn {
+      position: absolute;
+      top: 20%;
+      left: 20%;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      box-shadow: 0 0 15px #000;
-      background-image: url('https://i.imgur.com/VYPiZTi.png'); /* Hình mini game */
-      background-size: 80%;
-      background-repeat: no-repeat;
-      background-position: center;
+      background: radial-gradient(circle at center, #ff0000 40%, #990000 100%);
+      border: 5px solid gold;
+      box-shadow: 0 0 20px 5px gold, inset 0 0 10px #fff;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.2;
+      padding-top: 25px;
       cursor: grab;
+      user-select: none;
+      animation: spin 5s linear infinite;
       z-index: 999;
     }
 
-    /* Menu con */
-    .game-menu {
-      position: fixed;
-      bottom: 130px;
-      right: 60px;
-      display: none;
-      z-index: 998;
+    #miniGameBtn:active {
+      cursor: grabbing;
     }
 
-    .game-item {
-      width: 60px;
-      height: 60px;
-      background: orange;
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* Nền chữ nổi bật */
+    #miniGameBtn::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: 116px;
+      height: 116px;
       border-radius: 50%;
-      margin: 10px;
-      box-shadow: 0 0 8px #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: bold;
-      text-align: center;
-      cursor: pointer;
+      background: rgba(255, 255, 0, 0.3);
+      box-shadow: 0 0 30px 5px yellow;
+      z-index: -1;
     }
 
-    .game-item:hover {
-      background: gold;
-      color: #000;
+    /* Hiệu ứng ánh sáng */
+    #miniGameBtn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: repeating-conic-gradient(from 0deg, rgba(255,255,255,0.1) 0deg, transparent 30deg);
+      animation: light-spin 2s linear infinite;
     }
+
+    @keyframes light-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
   </style>
 </head>
 <body>
 
-<!-- Nút chính -->
-<div class="drag-button" id="dragBtn"></div>
+  <div id="miniGameBtn">MINI<br>GAME</div>
 
-<!-- Menu game con -->
-<div class="game-menu" id="gameMenu">
-  <div class="game-item" onclick="location.href='taixiu.html'">🎲Tài Xỉu</div>
-  <div class="game-item" onclick="location.href='jackpot.html'">🎰jackpot</div>
-  <div class="game-item" onclick="location.href='slot.html'">QUAY HŨ</div>
-  <div class="game-item" onclick="location.href='mini-game.html'">Mini</div>
-</div>
+  <script>
+    // Cho phép kéo nút mini game xung quanh màn hình
+    const miniBtn = document.getElementById('miniGameBtn');
+    let isDragging = false, offsetX, offsetY;
 
-<script>
-  const dragBtn = document.getElementById("dragBtn");
-  const gameMenu = document.getElementById("gameMenu");
+    miniBtn.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - miniBtn.offsetLeft;
+      offsetY = e.clientY - miniBtn.offsetTop;
+    });
 
-  // Kéo nút
-  dragBtn.onmousedown = function (e) {
-    e.preventDefault();
-    document.onmousemove = function (e2) {
-      dragBtn.style.left = e2.clientX - 35 + "px";
-      dragBtn.style.top = e2.clientY - 35 + "px";
-      gameMenu.style.left = e2.clientX - 35 + "px";
-      gameMenu.style.top = e2.clientY - 105 + "px";
-    };
-    document.onmouseup = function () {
-      document.onmousemove = null;
-      document.onmouseup = null;
-    };
-  };
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        miniBtn.style.left = `${e.clientX - offsetX}px`;
+        miniBtn.style.top = `${e.clientY - offsetY}px`;
+      }
+    });
 
-  // Toggle menu con
-  dragBtn.onclick = function () {
-    if (gameMenu.style.display === "none" || gameMenu.style.display === "") {
-      gameMenu.style.display = "block";
-    } else {
-      gameMenu.style.display = "none";
-    }
-  };
-</script>
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    // Cho điện thoại (touch)
+    miniBtn.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      const touch = e.touches[0];
+      offsetX = touch.clientX - miniBtn.offsetLeft;
+      offsetY = touch.clientY - miniBtn.offsetTop;
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      if (isDragging) {
+        const touch = e.touches[0];
+        miniBtn.style.left = `${touch.clientX - offsetX}px`;
+        miniBtn.style.top = `${touch.clientY - offsetY}px`;
+      }
+    });
+
+    document.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+  </script>
 
 </body>
 </html>
