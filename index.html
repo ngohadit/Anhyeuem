@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VUONG PROFILE</title>
+  <title>VƯƠNG 79CLUB - Sảnh Game</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -15,6 +19,7 @@
       background-size: cover;
       color: #fff;
       text-align: center;
+      overflow-x: hidden;
     }
 
     h1 {
@@ -44,7 +49,7 @@
       text-align: center;
       color: #fff;
       box-shadow: 0 0 10px #000;
-      transition: 0.3s;
+      z-index: 999;
     }
 
     .music-toggle:hover {
@@ -62,15 +67,62 @@
       color: #00FF66;
       font-weight: bold;
       box-shadow: 0 0 10px #000;
+      z-index: 999;
+    }
+
+    .floating-game-btn {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: #FFD700;
+      color: #000;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: grab;
+      z-index: 1000;
+      user-select: none;
+    }
+
+    .game-menu {
+      display: none;
+      position: absolute;
+      bottom: 70px;
+      right: 70px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 0 12px #000;
+    }
+
+    .game-menu button {
+      background: #00FF99;
+      border: none;
+      color: #000;
+      padding: 8px 16px;
+      border-radius: 8px;
+      margin: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .game-menu button:hover {
+      background: #00cc88;
     }
   </style>
 </head>
 <body>
   <h1>VUONG PROFILE</h1>
-  <p>Chào mừng đến với sòng bạc Vương 🌟</p>
+  <p>Chào mừng đến với sòng bạc Vương 79club 🌟</p>
 
   <!-- Khung hiển thị tiền -->
-  <div class="money-box">0đ VND</div>
+  <div class="money-box" id="moneyBox">0đ VND</div>
 
   <!-- Nút bật/tắt nhạc -->
   <div class="music-toggle" id="musicToggle">🎵</div>
@@ -80,7 +132,21 @@
     <source src="https://media.vocaroo.com/mp3/14Fx2ZuWfCB5" type="audio/mpeg" />
   </audio>
 
+  <!-- Nút tròn kéo di động chứa game -->
+  <div class="floating-game-btn" id="gameBtn">🎮</div>
+
+  <!-- Menu chọn game -->
+  <div class="game-menu" id="gameMenu">
+    <button onclick="window.location.href='taixiu.html'">Tài Xỉu</button>
+    <button onclick="window.location.href='jackpot.html'">Jackpot</button>
+    <!-- Thêm game khác ở đây -->
+  </div>
+
+  <!-- Test cộng tiền -->
+  <button class="btn-test-add" onclick="addMoney(50000)">+50.000đ (Test)</button>
+
   <script>
+    // Nhạc
     const musicToggle = document.getElementById("musicToggle");
     const bgMusic = document.getElementById("bgMusic");
     let isPlaying = false;
@@ -94,6 +160,46 @@
         musicToggle.textContent = "🎶";
       }
       isPlaying = !isPlaying;
+    });
+
+    // Cộng tiền
+    let money = 0;
+    const moneyBox = document.getElementById("moneyBox");
+    function addMoney(amount) {
+      money += amount;
+      moneyBox.textContent = money.toLocaleString('vi-VN') + "đ VND";
+    }
+
+    // Nút game kéo được
+    const gameBtn = document.getElementById("gameBtn");
+    const gameMenu = document.getElementById("gameMenu");
+
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    gameBtn.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      offsetX = e.clientX - gameBtn.offsetLeft;
+      offsetY = e.clientY - gameBtn.offsetTop;
+      gameBtn.style.cursor = "grabbing";
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (isDragging) {
+        gameBtn.style.left = e.clientX - offsetX + "px";
+        gameBtn.style.top = e.clientY - offsetY + "px";
+        gameBtn.style.bottom = "unset";
+        gameBtn.style.right = "unset";
+      }
+    });
+
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+      gameBtn.style.cursor = "grab";
+    });
+
+    gameBtn.addEventListener("click", () => {
+      gameMenu.style.display = gameMenu.style.display === "block" ? "none" : "block";
     });
   </script>
 </body>
