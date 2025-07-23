@@ -48,21 +48,8 @@
       transition: all 0.3s ease;
     }
 
-    .music-player {
-      position: fixed;
-      bottom: 80px;
-      left: 20px;
-      width: 300px;
-      height: 80px;
-      z-index: 999;
+    audio {
       display: none;
-      box-shadow: 0 0 10px #000;
-    }
-
-    .music-player iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
     }
   </style>
 </head>
@@ -73,32 +60,24 @@
   <!-- Nút bật/tắt nhạc -->
   <div class="music-toggle" onclick="toggleMusic()" id="musicBtn">🎵</div>
 
-  <!-- Trình phát nhạc SoundCloud -->
-  <div class="music-player" id="musicPlayer">
-    <iframe id="scPlayer" scrolling="no" frameborder="no"
-      src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/dj-rum/tuyet-yeu-thuong-dj-rumbarcadi-ft-leeduy-remix&color=%23ff5500&auto_play=true&hide_related=false&show_comments=false&show_user=true&show_reposts=false">
-    </iframe>
-  </div>
+  <!-- Trình phát nhạc mp3 -->
+  <audio id="bgMusic" loop>
+    <source src="https://media.vocaroo.com/mp3/14Fx2ZuWfCB5" type="audio/mpeg" />
+    Trình duyệt của bạn không hỗ trợ nhạc mp3.
+  </audio>
 
   <script>
-    let isPlaying = false;
+    const audio = document.getElementById("bgMusic");
+    const btn = document.getElementById("musicBtn");
 
     function toggleMusic() {
-      const player = document.getElementById('musicPlayer');
-      const button = document.getElementById('musicBtn');
-
-      if (isPlaying) {
-        player.style.display = 'none';
-        button.textContent = '🎵';
-        // Dừng nhạc bằng cách reload iframe (SoundCloud không hỗ trợ stop trực tiếp)
-        document.getElementById('scPlayer').src = '';
+      if (audio.paused) {
+        audio.play();
+        btn.textContent = "🎶";
       } else {
-        player.style.display = 'block';
-        button.textContent = '🎶';
-        document.getElementById('scPlayer').src = "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/dj-rum/tuyet-yeu-thuong-dj-rumbarcadi-ft-leeduy-remix&color=%23ff5500&auto_play=true&hide_related=false&show_comments=false&show_user=true&show_reposts=false";
+        audio.pause();
+        btn.textContent = "🎵";
       }
-
-      isPlaying = !isPlaying;
     }
   </script>
 </body>
