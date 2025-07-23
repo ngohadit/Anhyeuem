@@ -4,153 +4,157 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vương 79 Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
-
     body {
       margin: 0;
       font-family: 'Playfair Display', serif;
-      background: url('https://i.postimg.cc/zvYGwVbz/pngtree-full-casino-on-a-cruise-ship-picture-image-2478882.png') no-repeat center center fixed;
+      background-image: url('https://i.postimg.cc/zvYGwVbz/pngtree-full-casino-on-a-cruise-ship-picture-image-2478882.png');
       background-size: cover;
+      background-position: center;
       overflow: hidden;
     }
-
-    h1, h2 {
+    .title {
       text-align: center;
-      margin: 10px 0;
-      color: gold;
-      text-shadow: 2px 2px 0 #000, 0 0 10px gold;
-    }
-
-    h1 {
+      padding: 20px 0 5px;
       font-size: 48px;
+      font-weight: bold;
+      color: gold;
+      text-shadow: 2px 2px 4px black;
     }
-
-    h2 {
-      font-size: 20px;
-    }
-
-    .mini-game-button {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      position: absolute;
-      left: 20px;
-      bottom: 20px;
-      background: conic-gradient(orange 0% 12.5%, black 12.5% 25%, orange 25% 37.5%, black 37.5% 50%, orange 50% 62.5%, black 62.5% 75%, orange 75% 87.5%, black 87.5% 100%);
-      color: white;
-      font-size: 16px;
+    .subtitle {
       text-align: center;
-      line-height: 1.2;
-      cursor: grab;
+      font-size: 20px;
+      color: gold;
+      text-shadow: 1px 1px 3px black;
+    }
+    #miniGameButton {
+      position: absolute;
+      top: 150px;
+      left: 20px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      cursor: move;
+      background: conic-gradient(
+        orange 0deg 45deg,
+        black 45deg 90deg,
+        orange 90deg 135deg,
+        black 135deg 180deg,
+        orange 180deg 225deg,
+        black 225deg 270deg,
+        orange 270deg 315deg,
+        black 315deg 360deg
+      );
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+      border: 2px solid black;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
       user-select: none;
-      box-shadow: 0 0 10px gold;
+    }
+    #miniGameButton span {
+      white-space: pre-line;
       font-family: 'Playfair Display', serif;
     }
 
-    .mini-game-button span {
-      white-space: pre-line;
-    }
-
-    .popup {
-      position: fixed;
-      top: 50%;
+    #miniGamePopup {
+      display: none;
+      position: absolute;
+      top: 100px;
       left: 50%;
+      transform: translateX(-50%);
       width: 300px;
-      transform: translate(-50%, -50%);
-      background: gold;
-      border: 5px solid black;
-      border-radius: 15px;
       padding: 20px;
-      z-index: 10;
-      display: none;
-      box-shadow: 0 0 20px black;
-    }
-
-    .popup h3 {
+      background: gold;
+      border: 4px solid black;
+      border-radius: 15px;
       text-align: center;
-      font-size: 24px;
+      z-index: 1000;
+      font-family: 'Playfair Display', serif;
+    }
+    #miniGamePopup h2 {
+      margin-bottom: 15px;
+      font-size: 22px;
       color: black;
-      margin-top: 0;
     }
-
-    .popup button {
-      display: block;
-      margin: 10px auto;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: none;
-      background: black;
-      color: gold;
+    .close-btn {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      font-size: 20px;
+      color: black;
       cursor: pointer;
-    }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.3);
-      z-index: 9;
-      display: none;
     }
   </style>
 </head>
 <body>
 
-  <h1>Vương 79 Club</h1>
-  <h2>Chào mừng đến với thế giới 79 club</h2>
+  <div class="title">Vương 79 Club</div>
+  <div class="subtitle">Chào mừng đến với thế giới 79 club</div>
 
-  <div class="mini-game-button" id="miniBtn">
+  <!-- Mini Game Button -->
+  <div id="miniGameButton">
     <span>Mini<br>Game</span>
   </div>
 
-  <div class="overlay" id="overlay"></div>
-
-  <div class="popup" id="popup">
-    <h3>Chọn trò chơi</h3>
-    <button onclick="alert('Đang vào Tài Xỉu...')">Tài Xỉu</button>
-    <button onclick="alert('Sắp ra mắt...')">Slot Machine</button>
-    <button onclick="closePopup()">Đóng</button>
+  <!-- Mini Game Popup -->
+  <div id="miniGamePopup">
+    <div class="close-btn" onclick="togglePopup(false)">✕</div>
+    <h2>Chọn Mini Game</h2>
+    <button style="margin:5px;">Tài Xỉu</button>
+    <button style="margin:5px;">Slot</button>
+    <button style="margin:5px;">Xóc đĩa</button>
   </div>
 
   <script>
-    const miniBtn = document.getElementById('miniBtn');
-    const popup = document.getElementById('popup');
-    const overlay = document.getElementById('overlay');
+    const btn = document.getElementById('miniGameButton');
+    const popup = document.getElementById('miniGamePopup');
 
-    let isDragging = false, offsetX, offsetY;
+    btn.onclick = () => togglePopup(true);
+    function togglePopup(show) {
+      popup.style.display = show ? 'block' : 'none';
+    }
 
-    miniBtn.addEventListener('mousedown', e => {
+    // Drag move button
+    let isDragging = false, offsetX = 0, offsetY = 0;
+    btn.addEventListener('mousedown', function(e) {
       isDragging = true;
-      offsetX = e.clientX - miniBtn.offsetLeft;
-      offsetY = e.clientY - miniBtn.offsetTop;
-      miniBtn.style.cursor = 'grabbing';
+      offsetX = e.clientX - btn.offsetLeft;
+      offsetY = e.clientY - btn.offsetTop;
     });
-
-    document.addEventListener('mousemove', e => {
+    document.addEventListener('mousemove', function(e) {
       if (isDragging) {
-        miniBtn.style.left = `${e.clientX - offsetX}px`;
-        miniBtn.style.top = `${e.clientY - offsetY}px`;
+        btn.style.left = (e.clientX - offsetX) + 'px';
+        btn.style.top = (e.clientY - offsetY) + 'px';
       }
     });
-
-    document.addEventListener('mouseup', () => {
+    document.addEventListener('mouseup', function() {
       isDragging = false;
-      miniBtn.style.cursor = 'grab';
     });
 
-    miniBtn.addEventListener('click', () => {
-      popup.style.display = 'block';
-      overlay.style.display = 'block';
+    // Touch support
+    btn.addEventListener('touchstart', function(e) {
+      isDragging = true;
+      const touch = e.touches[0];
+      offsetX = touch.clientX - btn.offsetLeft;
+      offsetY = touch.clientY - btn.offsetTop;
     });
-
-    function closePopup() {
-      popup.style.display = 'none';
-      overlay.style.display = 'none';
-    }
+    document.addEventListener('touchmove', function(e) {
+      if (isDragging) {
+        const touch = e.touches[0];
+        btn.style.left = (touch.clientX - offsetX) + 'px';
+        btn.style.top = (touch.clientY - offsetY) + 'px';
+      }
+    });
+    document.addEventListener('touchend', function() {
+      isDragging = false;
+    });
   </script>
+
 </body>
 </html>
