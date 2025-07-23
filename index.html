@@ -58,10 +58,10 @@
   <p>Chào mừng đến với sòng bạc Vương 🌟</p>
 
   <!-- Nút bật/tắt nhạc -->
-  <div class="music-toggle" onclick="toggleMusic()" id="musicBtn">🎵</div>
+  <div class="music-toggle" onclick="toggleMusic()" id="musicBtn">🎶</div>
 
   <!-- Trình phát nhạc mp3 -->
-  <audio id="bgMusic" loop>
+  <audio id="bgMusic" autoplay loop>
     <source src="https://media.vocaroo.com/mp3/14Fx2ZuWfCB5" type="audio/mpeg" />
     Trình duyệt của bạn không hỗ trợ nhạc mp3.
   </audio>
@@ -79,6 +79,13 @@
         btn.textContent = "🎵";
       }
     }
+
+    // Tự đổi nút nếu nhạc phát tự động được
+    window.addEventListener("DOMContentLoaded", () => {
+      if (!audio.paused) {
+        btn.textContent = "🎶";
+      }
+    });
   </script>
 </body>
 </html>
